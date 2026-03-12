@@ -45,7 +45,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import tools from '../list.js'
+import playlistService from '../services/playlistService'
 
 const route = useRoute()
 const router = useRouter()
@@ -62,7 +62,7 @@ const handleSubmit = () => {
     if (!isFormValid.value) return
 
     try {
-        tools.addSong(playlistName, songName.value, bvId.value)
+        playlistService.addSong(playlistName, songName.value, bvId.value)
         alert('歌曲添加成功！')
         goBack()
     } catch (error) {
@@ -72,7 +72,7 @@ const handleSubmit = () => {
 }
 
 const goBack = () => {
-  router.push({ name: 'PlaylistDetail', params: { name: playlistName } })
+  router.push({ name: 'playlistDetail', params: { name: playlistName } })
 }
 </script>
 
@@ -201,3 +201,4 @@ const goBack = () => {
   color: #333;
 }
 </style>
+

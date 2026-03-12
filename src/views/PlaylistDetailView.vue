@@ -79,9 +79,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onBeforeUnmount, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import tools from '../list.js'
+import bilibiliService from '../services/bilibiliService'
+import playlistService from '../services/playlistService'
 
 const route = useRoute()
 const router = useRouter()
@@ -92,7 +93,7 @@ const loadPlaylist = () => {
   console.log('Loading Playlist:', name)
   if (!name) return
   
-  const allLists = tools.getAll()
+  const allLists = playlistService.getAll()
   const found = allLists.find(l => l.name === name)
   
   if (found) {
@@ -106,7 +107,7 @@ const loadPlaylist = () => {
 
 const removeSong = (song) => {
   if (confirm(`确定要移除歌曲 "${song.name}" 吗？`)) {
-    tools.removeSong(playlist.value.name, song.name)
+    playlistService.removeSong(playlist.value.name, song.name)
     loadPlaylist() // 重新加载
   }
 }
@@ -129,7 +130,7 @@ const playSong = async (song, index) => {
   
   try {
     // 获取歌曲时长（秒）
-    const duration = await tools.getSongTime(song.bv)
+    const duration = await bilibiliService.getSongDuration(song.bv)
     
     // 确保当前播放的歌曲没有被用户手动切换掉
     if (playingSong.value && playingSong.value.bv === song.bv && duration > 0) {
@@ -475,3 +476,4 @@ watch(() => route.params.name, () => {
   border: none;
 }
 </style>
+

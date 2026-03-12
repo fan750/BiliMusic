@@ -44,13 +44,13 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import tools from '../list.js'
+import playlistService from '../services/playlistService'
 
 const router = useRouter()
 const list = ref([])
 
 onMounted(() => {
-  list.value = tools.getAll()
+  list.value = playlistService.getAll()
 })
 
 const goToAddList = () => {
@@ -58,7 +58,7 @@ const goToAddList = () => {
 }
 
 const goToPlaylist = (name) => {
-  router.push({ name: 'PlaylistDetail', params: { name } })
+  router.push({ name: 'playlistDetail', params: { name } })
 }
 </script>
 

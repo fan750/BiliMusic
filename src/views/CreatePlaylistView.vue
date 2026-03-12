@@ -44,7 +44,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import tools from '../list.js'
+import playlistService from '../services/playlistService'
 
 const router = useRouter()
 const listName = ref('')
@@ -55,13 +55,13 @@ const handleSubmit = () => {
   
   // 检查是否已存在同名歌单
   try {
-    const currentLists = tools.getAll()
+    const currentLists = playlistService.getAll()
     if (currentLists.some(item => item.name === listName.value)) {
       alert('歌单名称已存在，请换一个名字')
       return
     }
 
-    tools.addList(listName.value, [], description.value)
+    playlistService.addList(listName.value, [], description.value)
     
     // 创建成功后的跳转
     console.log('创建歌单成功:', listName.value)
@@ -221,3 +221,4 @@ const goBack = () => {
   color: #333;
 }
 </style>
+
